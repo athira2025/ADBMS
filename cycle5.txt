@@ -1,0 +1,148 @@
+cycle 5
+
+1. SQL> desc EMP;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(20)
+ ENAME                                              VARCHAR2(25)
+ JOB                                                VARCHAR2(12)
+ SALARY                                             NUMBER(10,2)
+ DEPNO                                              NUMBER(2)
+ DATE_JOIN                                          DATE
+
+
+2. SQL> create view staff as select ename,job,salary from EMP where empno=7902;
+
+View created.
+
+SQL> select *from staff;
+
+ENAME                     JOB              SALARY
+------------------------- ------------ ----------
+ford                      analyst
+
+3. SQL> drop view staff;
+
+View dropped.
+
+Named PL SQL Procedure and Functions
+
+1.SQL> CREATE OR REPLACE PROCEDURE welcome_msg (p_name IN VARCHAR2)
+  2
+  3  IS
+  4
+  5  BEGIN
+  6
+  7  dbms_output.put_line ('Welcome '|| p_name);
+  8
+  9  END;
+ 10
+ 11  /
+
+Procedure created.
+
+SQL> EXEC welcome_msg ('Athira');
+Welcome Athira
+
+PL/SQL procedure successfully completed.
+
+2.SQL> CREATE OR REPLACE PROCEDURE welcome_msg (p_name IN VARCHAR2, salary out number)
+  2
+  3  IS
+  4
+  5  BEGIN
+  6
+  7  salary:=10000;
+  8
+  9  dbms_output.put_line ('Welcome '|| p_name);
+ 10
+ 11  END;
+ 12
+ 13  /
+
+Procedure created.
+
+SQL> var salary number;
+SQL> EXEC welcome_msg ('Athira',:salary);
+Welcome Athira
+
+PL/SQL procedure successfully completed.
+
+SQL> print salary;
+
+    SALARY
+----------
+     10000
+3.SQL> CREATE OR REPLACE FUNCTION welcome_msg_func ( p_name IN VARCHAR2) RETURN VARCHAR2
+  2
+  3  IS
+  4
+  5  BEGIN
+  6
+  7  RETURN ('Welcome '|| p_name);
+  8
+  9  END;
+ 10
+ 11  /
+
+Function created.
+
+SQL>
+SQL> DECLARE
+  2
+  3  lv_msg VARCHAR2(250);
+  4
+  5  BEGIN
+  6
+  7  lv_msg := welcome_msg_func ('Guru99');
+  8
+  9  dbms_output.put_line(lv_msg);
+ 10
+ 11  END;
+ 12
+ 13  /
+Welcome Guru99
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT welcome_msg_func('Guru99') FROM DUAL;
+
+WELCOME_MSG_FUNC('GURU99')
+--------------------------------------------------------------------------------
+Welcome Guru99
+
+4.SQL> CREATE OR REPLACE FUNCTION welcome_msg_func ( p_name IN VARCHAR2,sal out number) RETURN VARCHAR2
+  2
+  3  IS
+  4
+  5  BEGIN
+  6
+  7  sal:=10000;
+  8
+  9  RETURN ('Welcome '|| p_name);
+ 10
+ 11  END;
+ 12
+ 13  /
+
+Function created.
+
+SQL> DECLARE
+  2
+  3  lv_msg VARCHAR2(250);
+  4
+  5  sal number;
+  6
+  7  BEGIN
+  8
+  9  lv_msg := welcome_msg_func ('Guru99',sal);
+ 10
+ 11  dbms_output.put_line(lv_msg|| ' : '||sal );
+ 12
+ 13  END;
+ 14
+ 15  /
+Welcome Guru99 : 10000
+
+PL/SQL procedure successfully completed.
+
